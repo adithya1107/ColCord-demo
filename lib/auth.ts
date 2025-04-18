@@ -16,8 +16,14 @@ export const onAuthenticatedUser = async () => {
         name:true,
       },
     })
-    if (!user) return {status: 404, message: "User not found"}
-    return {status: 200, data: user} 
+    if(user)
+      return {
+        status: 200,
+        id:user.id,
+        name:user.name,
+      }
+      return {status: 404, message: "User not found"}
   } catch (error) {
-    
+    return {status: 400,
+    }
   }

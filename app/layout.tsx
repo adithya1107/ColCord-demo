@@ -21,7 +21,7 @@ import { EnhancedSearchBar } from "@/components/enhanced-search-bar";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ErrorBoundary from "@/components/error-boundary";
-
+import {ClerkProvider} from "@clerk/nextjs";
 const Sidebar = dynamic(() => import("../components/sidebar"), { ssr: false });
 
 const inter = Inter({ subsets: ["latin"] });
@@ -34,6 +34,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const router = useRouter();
 
   return (
+    <ClerkProvider>
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} dark`}>
         <ErrorBoundary>
@@ -96,5 +97,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </ErrorBoundary>
       </body>
     </html>
+  </ClerkProvider>
   );
 }

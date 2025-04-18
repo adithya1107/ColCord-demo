@@ -4,11 +4,13 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { MessageSquare, Calendar, Users, BookOpen, Menu } from 'lucide-react'
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs"
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { Sign } from "crypto"
 
 export function Navigation() {
   const pathname = usePathname()
@@ -88,9 +90,12 @@ export function Navigation() {
             {/* Add search functionality here if needed */}
           </div>
           <nav className="flex items-center">
-            <Button variant="default" className="ml-2">
-              Sign In
-            </Button>
+            <SignedOut>
+              <SignInButton mode="modal"/>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </nav>
         </div>
       </div>

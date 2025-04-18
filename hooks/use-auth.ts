@@ -1,22 +1,34 @@
-import { useState, useEffect } from "react"
-import { supabase } from "@/lib/supabaseClient" // Example using Supabase
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
 export function useAuth() {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { data, error } = await supabase.auth.getUser()
+      const { data, error } = await supabase.auth.getUser();
       if (data?.user) {
-        setUser(data.user)
+        setUser(data.user);
       } else {
-        setUser(null)
+        setUser(null);
       }
-      setLoading(false)
-    }
-    fetchUser()
-  }, [])
+      setLoading(false);
+    };
+    fetchUser();
+  }, []);
 
-  return { user, loading }
+  const signIn = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      console.error("Error logging in:", error.message);
+      return { error: error.message };
+    }
+
+    setUser(data.user);
+    return { user: data.user };
+  };
+
+  return { user, loading, signIn };
 }
