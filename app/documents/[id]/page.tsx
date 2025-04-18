@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'next/navigation'
 import * as Y from 'yjs'
 import { WebrtcProvider } from 'y-webrtc'
@@ -22,46 +22,6 @@ export default function CollaborativeDocumentPage() {
   const [versionHistory, setVersionHistory] = useState<{ id: string, timestamp: string }[]>([])
   const { toast } = useToast()
   const { awardXP } = useAchievements()
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && !quill) {
-      const ydoc = new Y.Doc()
-      const provider = new WebrtcProvider(`colcord-document-${id}`, ydoc)
-      const ytext = ydoc.getText('quill')
-
-      const quillInstance = new Quill('#editor', {
-        modules: { 
-          toolbar: [
-            [{ header: [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ list: 'ordered' }, { list: 'bullet' }],
-            ['link', 'image'],
-            ['clean']
-          ]
-        },
-        theme: 'snow'
-      })
-
-      new QuillBinding(ytext, quillInstance)
-
-      setQuill(quillInstance)
-
-      // Load the document title
-      const ytitle = ydoc.getText('title')
-      setDocumentTitle(ytitle.toString())
-
-      ytitle.observe(() => {
-        setDocumentTitle(ytitle.toString())
-      })
-
-      // Award XP for joining a collaborative document
-      awardXP(10, "Joined a collaborative document session")
-
-      return () => {
-        provider.destroy()
-      }
-    }
-  }, [id, awardXP])
 
   const handleTitleChange = (newTitle: string) => {
     setDocumentTitle(newTitle)

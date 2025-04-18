@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -21,15 +21,6 @@ export default function DocumentsPage() {
   const { toast } = useToast()
   const { awardXP } = useAchievements()
 
-  useEffect(() => {
-    // In a real application, you would fetch the documents from a backend here
-    const mockDocuments: Document[] = [
-      { id: '1', title: 'Project Proposal', lastEdited: '2024-01-15T10:30:00Z' },
-      { id: '2', title: 'Meeting Notes', lastEdited: '2024-01-14T15:45:00Z' },
-      { id: '3', title: 'Research Summary', lastEdited: '2024-01-13T09:20:00Z' },
-    ]
-    setDocuments(mockDocuments)
-  }, [])
 
   const handleCreateDocument = () => {
     if (newDocumentTitle.trim() === '') {
